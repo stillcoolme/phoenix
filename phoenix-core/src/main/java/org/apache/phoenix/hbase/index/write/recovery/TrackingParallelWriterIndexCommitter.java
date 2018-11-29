@@ -123,8 +123,10 @@ public class TrackingParallelWriterIndexCommitter implements IndexCommitter {
             tables.add(tableReference);
 
             /*
-             * Write a batch of index updates to an index table. This operation stops (is cancelable) via two
-             * mechanisms: (1) setting aborted or stopped on the IndexWriter or, (2) interrupting the running thread.
+             * Write a batch of index updates to an index table.
+              * This operation stops (is cancelable) via two mechanisms: 两种机制
+             * (1) setting aborted or stopped on the IndexWriter or,
+             * (2) interrupting the running thread.
              * The former will only work if we are not in the midst of writing the current batch to the table, though we
              * do check these status variables before starting and before writing the batch. The latter usage,
              * interrupting the thread, will work in the previous situations as was at some points while writing the
@@ -143,7 +145,7 @@ public class TrackingParallelWriterIndexCommitter implements IndexCommitter {
                     try {
                         // this may have been queued, but there was an abort/stop so we try to early exit
                         throwFailureIfDone();
-
+                        LOG.info("=====Writing index update:" + mutations + " to table: " + tableReference + "=====");
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Writing index update:" + mutations + " to table: " + tableReference);
                         }

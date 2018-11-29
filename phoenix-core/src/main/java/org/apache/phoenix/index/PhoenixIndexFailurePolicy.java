@@ -68,11 +68,10 @@ import com.google.common.collect.Multimap;
  * 
  * Handler called in the event that index updates cannot be written to their
  * region server. First attempts to disable the index and failing that falls
- * back to the default behavior of killing the region server.
- *
+ back to the default behavior of killing the region server.
+ * 索引的更新无法被写到他们所在的rs，首先试图disable index
  * TODO: use delegate pattern instead
- * 
- * 
+ *
  * @since 2.1
  */
 public class PhoenixIndexFailurePolicy extends  KillServerOnFailurePolicy {
@@ -89,7 +88,7 @@ public class PhoenixIndexFailurePolicy extends  KillServerOnFailurePolicy {
     }
 
     /**
-     * Attempt to disable the index table when we can't write to it, preventing future updates until the index is
+     * Attempt to disable the index table when we can't write to it, preventing future updates 防止之后到来的更新 until the index is
      * brought up to date, but allowing historical reads to continue until then.
      * <p>
      * In the case that we cannot reach the metadata information, we will fall back to the default policy and kill
@@ -100,7 +99,7 @@ public class PhoenixIndexFailurePolicy extends  KillServerOnFailurePolicy {
      */
     @Override
     public void handleFailure(Multimap<HTableInterfaceReference, Mutation> attempted, Exception cause) {
-
+        LOG.info("=====Attempt to disable the index table when we can't write to it, preventing future updates 防止之后到来的更新 until the index is brought up to date=====");
         try {
             handleFailureWithExceptions(attempted, cause);
         } catch (Throwable t) {
@@ -140,8 +139,7 @@ public class PhoenixIndexFailurePolicy extends  KillServerOnFailurePolicy {
                 indexTableNames.put(ref.getTableName(), minTimeStamp);
             }
         }
-
-        // for all the index tables that we've found, try to disable them and if that fails, try to
+        LOG.info("=====for all the index tables that we've found, try to disable them and if that fails, try to =====");
         for (Map.Entry<String, Long> tableTimeElement :indexTableNames.entrySet()){
             String indexTableName = tableTimeElement.getKey();
             long minTimeStamp = tableTimeElement.getValue();

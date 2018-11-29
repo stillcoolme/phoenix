@@ -101,8 +101,9 @@ public class ParallelWriterIndexCommitter implements IndexCommitter {
         /*
          * This bit here is a little odd, so let's explain what's going on. Basically, we want to do the writes in
          * parallel to each index table, so each table gets its own task and is submitted to the pool. Where it gets
-         * tricky is that we want to block the calling thread until one of two things happens: (1) all index tables get
-         * successfully updated, or (2) any one of the index table writes fail; in either case, we should return as
+         * tricky is that we want to block the calling thread until one of two things happens:
+         * (1) all index tables get successfully updated, or
+         * (2) any one of the index table writes fail; in either case, we should return as
          * quickly as possible. We get a little more complicated in that if we do get a single failure, but any of the
          * index writes hasn't been started yet (its been queued up, but not submitted to a thread) we want to that task
          * to fail immediately as we know that write is a waste and will need to be replayed anyways.
@@ -139,7 +140,7 @@ public class ParallelWriterIndexCommitter implements IndexCommitter {
                     // this may have been queued, so another task infront of us may have failed, so we should
                     // early exit, if that's the case
                     throwFailureIfDone();
-
+                    LOG.info("===== Writing index update:" + mutations + " to table: " + tableReference + "=====");
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Writing index update:" + mutations + " to table: " + tableReference);
                     }

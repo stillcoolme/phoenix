@@ -38,6 +38,8 @@ import org.apache.phoenix.hbase.index.table.HTableInterfaceReference;
 import org.apache.phoenix.hbase.index.util.ImmutableBytesPtr;
 
 /**
+ * 写数据到inde表，确保如果我们些失败了的时候能 kill掉region/server来确保 region's WAL 能得到回放。。。
+ * 用了平行的守护线程来做index的更新，所以不会阻塞region关闭。
  * Do the actual work of writing to the index tables. Ensures that if we do fail to write to the
  * index table that we cleanly kill the region/server to ensure that the region's WAL gets replayed.
  * <p>

@@ -147,7 +147,7 @@ public class Indexer extends BaseRegionObserver {
     
         this.builder = new IndexBuildManager(env);
 
-        // setup the actual index writer
+        LOG.info("===== setup the actual index writer =====");
         this.writer = new IndexWriter(env, serverName + "-index-writer");
     
         // setup the recovery writer that does retries on the failed edits

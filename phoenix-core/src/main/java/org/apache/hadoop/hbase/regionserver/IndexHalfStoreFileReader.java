@@ -42,7 +42,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.phoenix.index.IndexMaintainer;
 
 /**
- * A facade for a {@link org.apache.hadoop.hbase.io.hfile.HFile.Reader} that serves up either the
+ * A facade表面 for a {@link org.apache.hadoop.hbase.io.hfile.HFile.Reader} that serves up either the
  * top or bottom half of a HFile where 'bottom' is the first half of the file containing the keys
  * that sort lowest and 'top' is the second half of the file with keys that sort greater than those
  * of the bottom half. The top includes the split files midkey, of the key that follows if it does

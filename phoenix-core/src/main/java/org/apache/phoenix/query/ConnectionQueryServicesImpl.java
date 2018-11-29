@@ -573,6 +573,7 @@ public class ConnectionQueryServicesImpl extends DelegateQueryServices implement
 
     @Override
     public PhoenixConnection connect(String url, Properties info) throws SQLException {
+        logger.info("===== ConnectionQueryServicesImpl.connect（）=====");
         checkClosed();
         PMetaData metadata = latestMetaData;
         if (metadata == null) {
